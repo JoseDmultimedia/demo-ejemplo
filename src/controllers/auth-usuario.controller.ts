@@ -33,7 +33,7 @@ export class AuthUsuarioController {
     if (user) {
       let tk = await this.authUserService.GenerateToken(user);
       return {
-        data: user,
+        data: user, 
         token: tk
       }
     } else {

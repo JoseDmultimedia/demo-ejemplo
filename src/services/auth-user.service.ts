@@ -57,13 +57,20 @@ export class AuthUserService implements UserService<Usuario, Credentials> {
   }
 
 
-  async VerifyToken(token: string) {
+  async VerifyToken(token: string): Promise<UserProfile | undefined> {
+    let userProfile : UserProfile;
     try {
       const data = jwt.verify(token, keys.JWT_SECRET_KEY).data;
-      return data;
+      return userProfile = Object.assign(
+        {
+          [securityId]: data.idUsuario.toString(),
+          username: data.username,
+          password: data.password
+          }
+      );
     } catch (error) {
-      return false;
+      return undefined;
     }
   }
-
+  
 }

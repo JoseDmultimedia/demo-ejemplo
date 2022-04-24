@@ -15,7 +15,7 @@ import { DemoDbDataSource } from './datasources';
 import { UsuarioRepository } from './repositories';
 
 import {registerAuthenticationStrategy} from '@loopback/authentication';
-import { MyAuthStrategyProvider } from './providers/auth-strategy-provider'
+import { MyAuthStrategyProvider } from './Authentication-strategy/auth-strategy-provider'
 
 //import { AuthUserService } from './services';
 
