@@ -9,15 +9,15 @@ import {RestApplication} from '@loopback/rest';
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 import {MySequence} from './sequence';
-import {JWTAuthenticationComponent, UserServiceBindings} from '@loopback/authentication-jwt';
+import { JWTAuthenticationComponent, TokenServiceBindings, UserServiceBindings} from '@loopback/authentication-jwt';
 
-import { DemoDbDataSource } from './datasources';
+
 import { UsuarioRepository } from './repositories';
+import {AuthenticationComponent} from '@loopback/authentication';
+import {DemoDbDataSource} from './datasources';
+import { ServiceKeys } from './keys/service-keys'
 
-import {registerAuthenticationStrategy} from '@loopback/authentication';
-import { MyAuthStrategyProvider } from './providers/auth-strategy-provider'
 
-//import { AuthUserService } from './services';
 
 export {ApplicationConfig};
 
@@ -41,16 +41,18 @@ export class DemoEjemploApplication extends BootMixin(
 
     this.projectRoot = __dirname;
 
-
+     // ------ ADD SNIPPET AT THE BOTTOM ---------
+    // Mount authentication system
+    this.component(AuthenticationComponent);
+    // Mount jwt component
     this.component(JWTAuthenticationComponent);
     // Bind datasource
     this.dataSource(DemoDbDataSource, UserServiceBindings.DATASOURCE_NAME);
-    // Bind user service
-    //this.bind(UserServiceBindings.USER_SERVICE).toClass(AuthUserService),
-    // Bind user and credentials repository
+    // ------------- END OF SNIPPET -------------
+
+    this.bind(TokenServiceBindings.TOKEN_SECRET).to(ServiceKeys.JWT_SECRET_KEY);
 
 
-    registerAuthenticationStrategy(this, MyAuthStrategyProvider );
 
     this.bind(UserServiceBindings.USER_REPOSITORY).toClass(
       UsuarioRepository,
@@ -67,5 +69,4 @@ export class DemoEjemploApplication extends BootMixin(
     };
   }
 }
-
 

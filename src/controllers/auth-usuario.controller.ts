@@ -1,5 +1,9 @@
+import {TokenService} from '@loopback/authentication';
+import {MyUserService, TokenServiceBindings, UserServiceBindings} from '@loopback/authentication-jwt';
+import {inject} from '@loopback/core';
 import {repository} from '@loopback/repository';
 import {HttpErrors, post, requestBody} from '@loopback/rest';
+import {SecurityBindings, UserProfile} from '@loopback/security';
 import { UsuarioRepository } from '../repositories';
 import { AuthUserService } from '../services';
 
@@ -13,10 +17,16 @@ export class AuthUsuarioController {
 
   authUserService : AuthUserService
   constructor(
-    @repository(UsuarioRepository)
-    protected  usuarioRepository: UsuarioRepository
+    @inject(TokenServiceBindings.TOKEN_SERVICE)
+    public jwtService: TokenService,
+    @inject(UserServiceBindings.USER_SERVICE)
+    public userService: MyUserService,
+    @inject(SecurityBindings.USER, {optional: true})
+    public user: UserProfile,
+    @repository(UsuarioRepository) protected userRepository: UsuarioRepository,
+
   ) {
-    this.authUserService = new AuthUserService(usuarioRepository)
+    this.authUserService = new AuthUserService(userRepository)
   }
 
   @post('/login', {

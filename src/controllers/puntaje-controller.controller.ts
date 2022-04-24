@@ -21,14 +21,14 @@ import {
 import {Puntaje} from '../models';
 import {PuntajeRepository} from '../repositories';
 
-//@authenticate('userStrategy')
-@authenticate('jwt')
+
+
 export class PuntajeControllerController {
   constructor(
     @repository(PuntajeRepository)
     public puntajeRepository : PuntajeRepository,
   ) {}
-
+  @authenticate('jwt')
   @post('/puntajes')
   @response(200, {
     description: 'Puntaje model instance',
@@ -49,7 +49,7 @@ export class PuntajeControllerController {
   ): Promise<Puntaje> {
     return this.puntajeRepository.create(puntaje);
   }
-
+  @authenticate('jwt')
   @get('/puntajes/count')
   @response(200, {
     description: 'Puntaje model count',
@@ -60,7 +60,7 @@ export class PuntajeControllerController {
   ): Promise<Count> {
     return this.puntajeRepository.count(where);
   }
-
+  @authenticate('jwt')
   @get('/puntajes')
   @response(200, {
     description: 'Array of Puntaje model instances',
@@ -78,7 +78,7 @@ export class PuntajeControllerController {
   ): Promise<Puntaje[]> {
     return this.puntajeRepository.find(filter);
   }
-
+  @authenticate('jwt')
   @patch('/puntajes')
   @response(200, {
     description: 'Puntaje PATCH success count',
@@ -97,7 +97,7 @@ export class PuntajeControllerController {
   ): Promise<Count> {
     return this.puntajeRepository.updateAll(puntaje, where);
   }
-
+  @authenticate('jwt')
   @get('/puntajes/{id}')
   @response(200, {
     description: 'Puntaje model instance',
@@ -113,7 +113,7 @@ export class PuntajeControllerController {
   ): Promise<Puntaje> {
     return this.puntajeRepository.findById(id, filter);
   }
-
+  @authenticate('jwt')
   @patch('/puntajes/{id}')
   @response(204, {
     description: 'Puntaje PATCH success',
@@ -131,7 +131,7 @@ export class PuntajeControllerController {
   ): Promise<void> {
     await this.puntajeRepository.updateById(id, puntaje);
   }
-
+  @authenticate('jwt')
   @put('/puntajes/{id}')
   @response(204, {
     description: 'Puntaje PUT success',
@@ -142,7 +142,7 @@ export class PuntajeControllerController {
   ): Promise<void> {
     await this.puntajeRepository.replaceById(id, puntaje);
   }
-
+  @authenticate('jwt')
   @del('/puntajes/{id}')
   @response(204, {
     description: 'Puntaje DELETE success',
