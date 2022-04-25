@@ -113,6 +113,7 @@ export class PuntajeControllerController {
   ): Promise<Puntaje> {
     return this.puntajeRepository.findById(id, filter);
   }
+
   @authenticate('jwt')
   @patch('/puntajes/{id}')
   @response(204, {
@@ -150,4 +151,15 @@ export class PuntajeControllerController {
   async deleteById(@param.path.number('id') id: number): Promise<void> {
     await this.puntajeRepository.deleteById(id);
   }
+
+  @authenticate('jwt')
+  @get('/puntaje/resultados/{username}')
+  @response(204, {
+    description: 'Resultados buscados por el username',
+  })
+  async getdataResult(@param.path.string('username') username : string){
+    return this.puntajeRepository.customSqlSearch(username);
+  }
+
+
 }
