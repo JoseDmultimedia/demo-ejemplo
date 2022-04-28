@@ -5,7 +5,7 @@ const config = {
   name: 'demoDb',
   connector: 'mysql',
   url: '',
-  host: 'localhost',
+  host: 'host.docker.internal',
   port: 3306,
   user: 'root',
   password: '',
