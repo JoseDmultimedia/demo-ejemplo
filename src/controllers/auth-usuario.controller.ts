@@ -51,4 +51,35 @@ export class AuthUsuarioController {
     }
   }
 
+
+  @post('/loginRole', {
+    responses: {
+      '200': {
+        description: 'Login for roles'
+      }
+    }
+  })
+  async loginRole(
+    @requestBody() credentials: Credentials
+  ): Promise<object> {
+    const user = await this.authUserService.verifyCredentials(credentials);
+    if (user) {
+      if (user.idUsuario === 1){
+        const tk = await this.authUserService.GenerateTokenRole(user);
+        return {
+          data: user,
+          token: tk
+        }
+      }else{
+        const tk = await this.authUserService.GenerateToken(user);
+        return {
+          data: user,
+          token: tk
+        }
+      }
+    } else {
+      throw new HttpErrors[401]("User or Password invalid.");
+    }
+  }
+
 }

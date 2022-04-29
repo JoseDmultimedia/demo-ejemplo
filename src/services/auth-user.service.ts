@@ -56,6 +56,18 @@ export class AuthUserService implements UserService<Usuario, Credentials> {
       return token;
   }
 
+  async GenerateTokenRole(usuario : Usuario){
+    const token = jwt.sign({
+      exp: keys.TOKEN_EXPIRATION_TIME,
+      data: {
+        username: usuario.username,
+        password: usuario.password
+      }
+    },
+      keys.JWT_SECRET_KEY_TWO)
+      return token;
+  }
+
 
   async VerifyToken(token: string) {
     try {
